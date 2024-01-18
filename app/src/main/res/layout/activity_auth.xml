@@ -7,6 +7,7 @@
     tools:context=".AuthActivity">
 
     <RelativeLayout
+        android:id="@+id/AuthActivityHandlerLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,9 +36,77 @@
             android:textSize="30sp"
             android:textFontWeight="500"
             android:textColor="@color/handler_color"
-            android:fontFamily="@font/neo_sans_pro_medium"
-            />
+            android:fontFamily="@font/neo_sans_pro_medium" />
 
     </RelativeLayout>
+
+    <!--Заголовок к полю ввода-->
+    <TextView
+        android:id="@+id/AuthActivityEmailFieldLabel"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AuthActivityHandlerLayout"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="85dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Вход по Email"
+        android:textColor="@color/description_color"
+        android:textSize="14sp"
+        android:fontFamily="@font/neo_sans_pro_regular"
+        android:textFontWeight="400"
+        android:lineHeight="20dp"/>
+
+    <!--Поле ввода email-->
+    <EditText
+        android:id="@+id/AuthActivityEmailField"
+
+        app:layout_constraintTop_toBottomOf="@+id/AuthActivityEmailFieldLabel"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="34dp"
+        android:paddingLeft="20dp"
+        android:background="@drawable/auth_activity_email_field_background"
+
+        android:hint="Введите почту"
+        android:textColorHint="#8017418C"
+        android:textSize="14sp"
+        android:fontFamily="@font/neo_sans_pro_regular"
+        android:textFontWeight="400" />
+
+    <!--Кнопка для перехода далее-->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/AuthActivityNextButton"
+
+        app:layout_constraintTop_toBottomOf="@+id/AuthActivityEmailField"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginHorizontal="36dp"
+        android:background="@drawable/auth_activity_next_button_background"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="15dp"
+        android:enabled="false"
+
+        android:text="Далее"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:fontFamily="@font/neo_sans_pro_regular"
+        android:textFontWeight="400"
+        android:textSize="20sp"
+        android:lineHeight="24dp"/>
+
+    <!--Банер с логотипом приложения-->
+    <ImageView
+        app:layout_constraintTop_toBottomOf="@+id/AuthActivityNextButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/applogo_vector"
+        android:layout_marginTop="85dp"
+        android:layout_marginBottom="40dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
