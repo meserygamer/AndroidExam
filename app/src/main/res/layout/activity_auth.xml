@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".AuthActivity">
 
+    <!--Контейнер заголовока-->
     <RelativeLayout
         android:id="@+id/AuthActivityHandlerLayout"
         android:layout_width="wrap_content"
