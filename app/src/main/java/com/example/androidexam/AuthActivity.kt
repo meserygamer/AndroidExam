@@ -1,5 +1,6 @@
 package com.example.androidexam
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -53,10 +54,12 @@ class AuthActivity : AppCompatActivity(){
     //Метод устанавливающий слушателя на нажатие кнопки
     private fun SetNextButtonListner() {
         binding.AuthActivityNextButton.setOnClickListener(object : View.OnClickListener {
-            //Происходит после нажатия на кнопку
-            override fun onClick(p0: View?) {
 
+            //Происходит после нажатия на кнопку отправки кода
+            override fun onClick(p0: View?) {
+                startActivity(Intent(this@AuthActivity, ConfirmEmailCodeActivity::class.java));
             }
+
         }) //Создаем ананимный слушатель кликов и ставим его для прослушивания кнопки
     }
 }

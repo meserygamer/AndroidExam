@@ -13,10 +13,10 @@
         android:theme="@style/Theme.AndroidExam"
         tools:targetApi="31">
         <activity
-            android:name=".AuthActivity"
+            android:name=".ConfirmEmailCodeActivity"
             android:exported="false" />
         <activity
-            android:name=".ConfirmEmailCodeActivity"
+            android:name=".AuthActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
