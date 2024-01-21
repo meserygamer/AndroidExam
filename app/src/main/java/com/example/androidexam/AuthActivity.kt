@@ -64,15 +64,15 @@ class AuthActivity : AppCompatActivity(){
             //Происходит после нажатия на кнопку отправки кода
             override fun onClick(p0: View?) {
 
-                SendCodeOnEmailAsync(binding.AuthActivityEmailField.text.toString())
-
+                SendCodeOnEmailAsync(binding.AuthActivityEmailField.text.toString()) //Отправляем
+            // запрос для отправки пользователю кода
             }
 
-        }) //Создаем ананимный слушатель кликов и ставим его для прослушивания кнопки
+        }) //Создаем анонимный слушатель кликов и ставим его для прослушивания кнопки
     }
 
     //Метод использования retrofit для отправки кода на почту
-    fun SendCodeOnEmailAsync(email : String) {
+    private fun SendCodeOnEmailAsync(email : String) {
         APIConnection.retrofitConnectionWithInterface
             .SendCodeOnEmail(email)
             .enqueue(object : Callback<ResponseBody>{
@@ -81,6 +81,8 @@ class AuthActivity : AppCompatActivity(){
                     call: Call<ResponseBody>,
                     response: Response<ResponseBody>
                 ) {
+                    APIConnection.UserEmail = email; //Передаем email пользователя на который
+                    // отправлен код, для дальнейших методов
                     startActivity(Intent(this@AuthActivity
                         , ConfirmEmailCodeActivity::class.java)); //В случае успеха идем
                 // на следующую страницу
@@ -88,7 +90,9 @@ class AuthActivity : AppCompatActivity(){
 
                 //Вызывается при неудачной отправке запроса на сервер
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Toast.makeText(this@AuthActivity, "Что-то пошло не так!", Toast.LENGTH_LONG)
+                    Toast.makeText(this@AuthActivity,
+                        "Что-то пошло не так!", Toast.LENGTH_LONG)
+                         .show()
                 }
 
             }) //Асинхронно вызываем метод для отправки кода на почту пользователя

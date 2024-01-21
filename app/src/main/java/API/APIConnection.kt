@@ -26,6 +26,10 @@ object APIConnection {
     val retrofitConnectionWithInterface : IAPIConnectionInterface
         get() = retrofitConnection.create(IAPIConnectionInterface::class.java)
 
+    //Свойство хранящее email пользователя, по умолчанию null
+    var UserEmail : String? = null;
+
+
     //Свойство хранящее адрес сервера
     private val _baseURI = "https://iis.ngknn.ru/NGKNN/%D0%9C%D0%B0%D0%BC%D1%88%D0%B5%D0%B2%D0%B0%D0%AE%D0%A1/exam/";
 

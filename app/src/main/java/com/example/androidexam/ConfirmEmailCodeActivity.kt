@@ -1,14 +1,21 @@
 package com.example.androidexam
 
+import API.APIConnection
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.example.androidexam.databinding.ActivityAuthBinding
 import com.example.androidexam.databinding.ActivityConfirmEmailCodeBinding
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ConfirmEmailCodeActivity : AppCompatActivity() {
 
@@ -51,9 +58,10 @@ class ConfirmEmailCodeActivity : AppCompatActivity() {
                 //Вызывается после изменения текста в PinView
                 override fun afterTextChanged(p0: Editable?) {
                     if(p0 == null) return; //Если текст в PinView null то выходим
-                    if(p0.toString().length == 4) //Если длина текста в PinView равна 4 (длина кода отправляемого на Email), отправляем на проверку
+                    if(p0.toString().length == 4) //Если длина текста в PinView равна 4
+                    // (длина кода отправляемого на Email), отправляем на проверку
                     {
-
+                        CheckUserCodeOnEmail(p0.toString()); //Отправляем код на сервер для сравнения
                     }
                 }
             }) //Создаем анонимный слушатель изменений текста и ставим его на PinView
@@ -74,5 +82,34 @@ class ConfirmEmailCodeActivity : AppCompatActivity() {
             }
 
         }) //Создаем анонимный слушатель кликов кнопки и ставим его на кнопку назад
+    }
+
+    //Метод использования retrofit для отправки кода на сравнение с отправленным
+    private fun CheckUserCodeOnEmail(code : String) {
+        APIConnection.retrofitConnectionWithInterface
+            .CheckEmailCode(APIConnection.UserEmail!!, code)
+            .enqueue(object : Callback<ResponseBody> {
+                //Вызывается в случае успешного соединения с сервером и отпраки запроса
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    Log.println(Log.INFO, "API", "Код ответа на запрос проверки кода = " + response.code())
+                    if(response.code() != 200) //Если код ответа не 200, значит код неправильный
+                    {
+                        Toast.makeText(this@ConfirmEmailCodeActivity
+                            , "Неправильный код!", Toast.LENGTH_LONG)
+                             .show()
+                    }
+                }
+
+                //Вызывается при неудачной отправке запроса на сервер
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Toast.makeText(this@ConfirmEmailCodeActivity
+                        , "Что-то пошло не так!", Toast.LENGTH_LONG)
+                         .show()
+                }
+
+            })//Асинхронно вызываем метод для отправки кода на сравнение
     }
 }
