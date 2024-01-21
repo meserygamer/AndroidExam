@@ -1,12 +1,18 @@
 package com.example.androidexam
 
+import API.APIConnection
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import com.example.androidexam.databinding.ActivityAuthBinding
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class AuthActivity : AppCompatActivity(){
 
@@ -57,9 +63,34 @@ class AuthActivity : AppCompatActivity(){
 
             //Происходит после нажатия на кнопку отправки кода
             override fun onClick(p0: View?) {
-                startActivity(Intent(this@AuthActivity, ConfirmEmailCodeActivity::class.java));
+
+                SendCodeOnEmailAsync(binding.AuthActivityEmailField.text.toString())
+
             }
 
         }) //Создаем ананимный слушатель кликов и ставим его для прослушивания кнопки
+    }
+
+    //Метод использования retrofit для отправки кода на почту
+    fun SendCodeOnEmailAsync(email : String) {
+        APIConnection.retrofitConnectionWithInterface
+            .SendCodeOnEmail(email)
+            .enqueue(object : Callback<ResponseBody>{
+                //Вызывается в случае успешного соединения с сервером и отпраки запроса
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    startActivity(Intent(this@AuthActivity
+                        , ConfirmEmailCodeActivity::class.java)); //В случае успеха идем
+                // на следующую страницу
+                }
+
+                //Вызывается при неудачной отправке запроса на сервер
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Toast.makeText(this@AuthActivity, "Что-то пошло не так!", Toast.LENGTH_LONG)
+                }
+
+            }) //Асинхронно вызываем метод для отправки кода на почту пользователя
     }
 }

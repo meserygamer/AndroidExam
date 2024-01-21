@@ -15,5 +15,4 @@ interface IAPIConnectionInterface {
     @POST("api/SignInApp")
     fun CheckEmailCode(@Header("User-email")emailAddress : String
                        , @Header("User-code")emailCode : String) : Call<ResponseBody>
-
 }
